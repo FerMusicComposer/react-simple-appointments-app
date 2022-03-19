@@ -15,7 +15,7 @@ function App() {
             <SearchBar />
             <ul className="divide-y divide-gray-200">
                 {appointmentList.map(appointment => (
-                    <AppointmentInfo appointment={appointment} />
+                    <AppointmentInfo key={appointment.id} appointment={appointment} />
                 ))}
             </ul>
         </div>

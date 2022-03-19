@@ -2,7 +2,7 @@ import { BiTrash } from 'react-icons/bi';
 
 const AppointmentInfo = ({ appointment }) => {
     return (
-        <li key={appointment.id} className="px-3 py-3 flex items-start">
+        <li className="px-3 py-3 flex items-start">
             <button
                 type="button"
                 className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-500 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
