@@ -19,6 +19,10 @@ function App() {
         fetchData();
     }, [fetchData]);
 
+    const onDeleteAppointment = appointmentId => {
+        setAppointmentList(appointmentList.filter(appointment => appointment.id !== appointmentId));
+    };
+
     return (
         <div className="App container mx-auto mt-3 font-thin">
             <h1 className="text-5xl ">
@@ -29,7 +33,11 @@ function App() {
             <SearchBar />
             <ul className="divide-y divide-gray-200">
                 {appointmentList.map(appointment => (
-                    <AppointmentInfo key={appointment.id} appointment={appointment} />
+                    <AppointmentInfo
+                        key={appointment.id}
+                        appointment={appointment}
+                        onDeleteAppointment={onDeleteAppointment}
+                    />
                 ))}
             </ul>
         </div>
