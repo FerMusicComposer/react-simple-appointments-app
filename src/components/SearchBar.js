@@ -14,7 +14,7 @@ const SearchBar = () => {
                     name="searchBar"
                     id="searchBar"
                     value=""
-                    className="pl-8 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300"
+                    className="pl-8 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full h-10 sm:text-sm border-gray-300"
                     placeholder="Search"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center">
