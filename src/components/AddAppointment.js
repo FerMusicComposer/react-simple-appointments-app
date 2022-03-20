@@ -1,5 +1,5 @@
 import { BiCalendarPlus } from 'react-icons/bi';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 const AddAppointment = ({ onSendAppointment, lastId }) => {
     const [toggleForm, setToggleForm] = useState(false);
