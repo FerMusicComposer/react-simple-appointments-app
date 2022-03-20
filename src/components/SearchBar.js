@@ -2,7 +2,7 @@ import { BiSearch, BiCaretDown } from 'react-icons/bi';
 import DropDown from './DropDown';
 import { useState } from 'react';
 
-const SearchBar = () => {
+const SearchBar = ({ query, onQueryChange }) => {
     const [toggleSort, setToggleSort] = useState(false);
 
     return (
@@ -14,9 +14,10 @@ const SearchBar = () => {
                 </div>
                 <input
                     type="text"
+                    onChange={event => onQueryChange(event.target.value)}
                     name="searchBar"
                     id="searchBar"
-                    value=""
+                    value={query}
                     className="pl-8 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full h-10 sm:text-sm border-gray-300"
                     placeholder="Search"
                 />

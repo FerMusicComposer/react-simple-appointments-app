@@ -6,6 +6,7 @@ import AppointmentInfo from './components/AppointmentInfo';
 
 function App() {
     const [appointmentList, setAppointmentList] = useState([]);
+    const [query, setQuery] = useState('');
 
     const fetchData = useCallback(() => {
         fetch('./data.json')
@@ -23,6 +24,14 @@ function App() {
         setAppointmentList(appointmentList.filter(appointment => appointment.id !== appointmentId));
     };
 
+    const filteredAppointments = appointmentList.filter(item => {
+        return (
+            item.petName.toLowerCase().includes(query.toLowerCase()) ||
+            item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+            item.aptNotes.toLowerCase().includes(query.toLowerCase())
+        );
+    });
+
     return (
         <div className="App container mx-auto mt-3 font-thin">
             <h1 className="text-5xl ">
@@ -30,9 +39,9 @@ function App() {
                 Your Appointments
             </h1>
             <AddAppointment />
-            <SearchBar />
+            <SearchBar query={query} onQueryChange={userQuery => setQuery(userQuery)} />
             <ul className="divide-y divide-gray-200">
-                {appointmentList.map(appointment => (
+                {filteredAppointments.map(appointment => (
                     <AppointmentInfo
                         key={appointment.id}
                         appointment={appointment}
