@@ -2,9 +2,8 @@ import { BiSearch, BiCaretDown } from 'react-icons/bi';
 import DropDown from './DropDown';
 import { useState } from 'react';
 
-const SearchBar = ({ query, onQueryChange }) => {
+const SearchBar = ({ query, onQueryChange, sortBy, orderBy, onOrderByChange, onSortByChange }) => {
     const [toggleSort, setToggleSort] = useState(false);
-
     return (
         <div className="py-5">
             <div className="mt-1 relative rounded-md shadow-sm">
@@ -33,7 +32,14 @@ const SearchBar = ({ query, onQueryChange }) => {
                         >
                             Sort by <BiCaretDown className="ml-2" />
                         </button>
-                        {toggleSort ? <DropDown /> : null}
+
+                        <DropDown
+                            toggle={toggleSort}
+                            orderBy={orderBy}
+                            onOrderByChange={userSort => onOrderByChange(userSort)}
+                            sortby={sortBy}
+                            onSortByChange={userSort => onSortByChange(userSort)}
+                        />
                     </div>
                 </div>
             </div>

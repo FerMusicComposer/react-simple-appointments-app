@@ -1,8 +1,29 @@
 import { BiCalendarPlus } from 'react-icons/bi';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
-const AddAppointment = () => {
+const AddAppointment = ({ onSendAppointment, lastId }) => {
     const [toggleForm, setToggleForm] = useState(false);
+    const clearData = {
+        ownerName: '',
+        petName: '',
+        aptDate: '',
+        aptTime: '',
+        aptNotes: '',
+    };
+    const [formData, setFormData] = useState(clearData);
+
+    const formDataPublish = () => {
+        const appointmentInfo = {
+            id: lastId + 1,
+            ownerName: formData.ownerName,
+            petName: formData.petName,
+            aptDate: `${formData.aptDate} ${formData.aptTime}`,
+            aptNotes: formData.aptNotes,
+        };
+        onSendAppointment(appointmentInfo);
+        setFormData(clearData);
+        setToggleForm(!toggleForm);
+    };
 
     return (
         <div>
@@ -29,6 +50,10 @@ const AddAppointment = () => {
                             <input
                                 type="text"
                                 name="ownerName"
+                                onChange={event =>
+                                    setFormData({ ...formData, ownerName: event.target.value })
+                                }
+                                value={formData.ownerName}
                                 id="ownerName"
                                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                             />
@@ -46,6 +71,8 @@ const AddAppointment = () => {
                             <input
                                 type="text"
                                 name="petName"
+                                onChange={event => setFormData({ ...formData, petName: event.target.value })}
+                                value={formData.petName}
                                 id="petName"
                                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                             />
@@ -63,6 +90,8 @@ const AddAppointment = () => {
                             <input
                                 type="date"
                                 name="aptDate"
+                                onChange={event => setFormData({ ...formData, aptDate: event.target.value })}
+                                value={formData.aptDate}
                                 id="aptDate"
                                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                             />
@@ -80,6 +109,8 @@ const AddAppointment = () => {
                             <input
                                 type="time"
                                 name="aptTime"
+                                onChange={event => setFormData({ ...formData, aptTime: event.target.value })}
+                                value={formData.aptTime}
                                 id="aptTime"
                                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                             />
@@ -97,6 +128,8 @@ const AddAppointment = () => {
                             <textarea
                                 id="aptNotes"
                                 name="aptNotes"
+                                onChange={event => setFormData({ ...formData, aptNotes: event.target.value })}
+                                value={formData.aptNotes}
                                 rows="3"
                                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder="Detailed comments about the condition"
@@ -108,6 +141,7 @@ const AddAppointment = () => {
                         <div className="flex justify-end">
                             <button
                                 type="submit"
+                                onClick={formDataPublish}
                                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
                             >
                                 Submit

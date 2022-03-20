@@ -7,6 +7,8 @@ import AppointmentInfo from './components/AppointmentInfo';
 function App() {
     const [appointmentList, setAppointmentList] = useState([]);
     const [query, setQuery] = useState('');
+    const [sortBy, setSortBy] = useState('petName');
+    const [orderBy, setOrderBy] = useState('asc');
 
     const fetchData = useCallback(() => {
         fetch('./data.json')
@@ -24,13 +26,23 @@ function App() {
         setAppointmentList(appointmentList.filter(appointment => appointment.id !== appointmentId));
     };
 
-    const filteredAppointments = appointmentList.filter(item => {
-        return (
-            item.petName.toLowerCase().includes(query.toLowerCase()) ||
-            item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
-            item.aptNotes.toLowerCase().includes(query.toLowerCase())
-        );
-    });
+    const filteredAppointments = appointmentList
+        .filter(item => {
+            return (
+                item.petName.toLowerCase().includes(query.toLowerCase()) ||
+                item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+                item.aptNotes.toLowerCase().includes(query.toLowerCase())
+            );
+        })
+        .sort((a, b) => {
+            let order = orderBy === 'asc' ? 1 : -1;
+
+            return a[sortBy].toLowerCase() < b[sortBy].toLowerCase() ? -1 * order : 1 * order;
+        });
+
+    const onSortByChange = userSort => {
+        setSortBy(userSort);
+    };
 
     return (
         <div className="App container mx-auto mt-3 font-thin">
@@ -38,8 +50,21 @@ function App() {
                 <BiCalendar className="inline-block text-red-400 mr-3 align-top" />
                 Your Appointments
             </h1>
-            <AddAppointment />
-            <SearchBar query={query} onQueryChange={userQuery => setQuery(userQuery)} />
+            <AddAppointment
+                onSendAppointment={newApt => setAppointmentList([...appointmentList, newApt])}
+                lastId={appointmentList.reduce(
+                    (max, item) => (Number(item.id) > max ? Number(item.id) : max),
+                    0,
+                )}
+            />
+            <SearchBar
+                query={query}
+                onQueryChange={userQuery => setQuery(userQuery)}
+                sortby={sortBy}
+                orderBy={orderBy}
+                onOrderByChange={userSort => setOrderBy(userSort)}
+                onSortByChange={onSortByChange}
+            />
             <ul className="divide-y divide-gray-200">
                 {filteredAppointments.map(appointment => (
                     <AppointmentInfo

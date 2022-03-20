@@ -1,7 +1,15 @@
 import { BiCheck } from 'react-icons/bi';
 
-const DropDown = () => {
-    const menuOptions = ['Pet Name', 'Owner Name', 'Date', 'Asc', 'Desc'];
+const DropDown = ({ toggle, orderBy, onOrderByChange, sortBy, onSortByChange }) => {
+    const menuOptions = [
+        { name: 'Pet Name', att: 'petName' },
+        { name: 'Owner Name', att: 'ownerName' },
+        { name: 'Date', att: 'aptDate' },
+    ];
+
+    if (!toggle) {
+        return null;
+    }
 
     return (
         <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
@@ -10,13 +18,28 @@ const DropDown = () => {
                     return (
                         <div
                             key={idx}
+                            onClick={() => onSortByChange(item.att)}
                             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer"
                             role="menuitem"
                         >
-                            {item} <BiCheck />
+                            {item.name} {sortBy === item.att && <BiCheck />}
                         </div>
                     );
                 })}
+                <div
+                    onClick={() => onOrderByChange('asc')}
+                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer border-gray-1 border-t-2"
+                    role="menuitem"
+                >
+                    Asc {orderBy === 'asc' && <BiCheck />}
+                </div>
+                <div
+                    onClick={() => onOrderByChange('desc')}
+                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer"
+                    role="menuitem"
+                >
+                    Desc {orderBy === 'desc' && <BiCheck />}
+                </div>
             </div>
         </div>
     );
